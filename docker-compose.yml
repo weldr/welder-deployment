@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    api:
+        build: ./bdcs-api-rs/
+        image: wiggum/bdcs-api:latest
+        ports:
+            - 4000
+        volumes:
+            - bdcs-recipes-volume:/bdcs-recipes/
+            - bdcs-mddb-volume:/mddb/
+
+    web:
+        build: ./composer-UI/
+        image: wiggum/composer:latest
+        links:
+            - api
+        ports:
+            - 80:3000
+
+volumes:
+    bdcs-recipes-volume:
+        driver: local
+        driver_opts:
+            size: 1GB
+    bdcs-mddb-volume:
+        external: true
+
