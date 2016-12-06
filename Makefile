@@ -23,17 +23,25 @@ local-repos:
 
 # Build the wiggum/* docker images. No rpms are imported and no images are run.
 build: repos
-	$(MAKE) -C bdcs importer
+	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
 # This uses local checkouts one directory above
 build-local: local-repos
-	$(MAKE) -C bdcs importer
+	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
 # Import the RPMS from IMPORT_PATH and create the bdcs-mddb-volume
 import: repos
-	WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
+	@if [ -h $(IMPORT_PATH)/rpms ]; then \
+		echo "ERROR: $(IMPORT_PATH)/rpms/ cannot be a symlink"; \
+		exit 1; \
+	fi; \
+	if [ ! -d $(IMPORT_PATH)/rpms ]; then \
+		echo "ERROR: $(IMPORT_PATH)/rpms/ must exist"; \
+		exit 1; \
+	fi; \
+	sudo WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
 
 run: repos
 	sudo docker-compose up
