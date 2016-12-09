@@ -43,6 +43,16 @@ import: repos
 	fi; \
 	sudo WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
 
+import-metadata:
+	@if [ ! -f ./metadata.db ]; then \
+		echo "ERROR: missing ./metadata.db file" \
+		exit 1; \
+	fi; \
+	sudo docker volume create -d local --opt o=size=2GB --name bdcs-mddb-volume
+	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z wiggum/bdcs-api
+	sudo docker cp ./metadata.db import-mddb:/mddb/
+	sudo docker rm import-mddb
+
 run: repos
 	sudo docker-compose up
 
