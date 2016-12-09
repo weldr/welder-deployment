@@ -7,8 +7,8 @@ services:
         ports:
             - 4000
         volumes:
-            - bdcs-recipes-volume:/bdcs-recipes/
-            - bdcs-mddb-volume:/mddb/
+            - bdcs-recipes-volume:/bdcs-recipes/:z
+            - bdcs-mddb-volume:/mddb/:z
 
     web:
         build: ./composer-UI/
