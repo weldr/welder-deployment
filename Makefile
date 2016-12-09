@@ -46,6 +46,9 @@ import: repos
 run: repos
 	sudo docker-compose up
 
+run-background: repos
+	sudo docker-compose up -d
+
 all:
 	echo "Choose one of build, import, or run."
 
