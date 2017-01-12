@@ -2,6 +2,7 @@ version: '2'
 
 services:
     api:
+        restart: always
         build: ./bdcs-api-rs/
         image: wiggum/bdcs-api:latest
         ports:
@@ -11,6 +12,7 @@ services:
             - bdcs-mddb-volume:/mddb/:z
 
     web:
+        restart: always
         build: ./composer-UI/
         image: wiggum/composer:latest
         links:
