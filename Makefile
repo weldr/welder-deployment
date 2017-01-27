@@ -6,6 +6,9 @@ default: all
 
 repos: ./bdcs ./bdcs-api-rs ./composer-UI
 
+weld-f24: Dockerfile-weld-f24
+	sudo docker build -f Dockerfile-weld-f24 -t weld/fedora:24 .
+
 bdcs:
 	git clone git@github.com:wiggum/bdcs.git
 
@@ -22,12 +25,12 @@ local-repos:
 	git clone ../composer-UI
 
 # Build the wiggum/* docker images. No rpms are imported and no images are run.
-build: repos
+build: repos weld-f24
 	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
 # This uses local checkouts one directory above
-build-local: local-repos
+build-local: local-repos weld-f24
 	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
