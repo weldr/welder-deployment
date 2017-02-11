@@ -1,9 +1,9 @@
-# Helpers for building and running the composer docker images
+# Helpers for building and running the welder docker images
 # Set IMPORT_PATH to the path of the rpms to import or bind mount to ./rpms/
 IMPORT_PATH ?= $(PWD)
 
-GIT_ORG_URL=git+ssh://git@github.com/wiggum
-REPOS=bdcs bdcs-api-rs composer-UI
+GIT_ORG_URL=git+ssh://git@github.com/weldr
+REPOS=bdcs bdcs-api-rs welder-web
 
 default: all
 
@@ -24,7 +24,7 @@ $(REPOS):%:
 local-repos: GIT_ORG_URL=..
 local-repos: clean repos
 
-# Build the wiggum/* docker images. No rpms are imported and no images are run.
+# Build the weld/* docker images. No rpms are imported and no images are run.
 build: repos weld-f24
 	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
@@ -50,7 +50,7 @@ import-metadata:
 		exit 1; \
 	fi; \
 	sudo docker volume create -d local --opt o=size=2GB --name bdcs-mddb-volume
-	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z wiggum/bdcs-api
+	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z weld/bdcs-api
 	sudo docker cp ./metadata.db import-mddb:/mddb/
 	sudo docker rm import-mddb
 
