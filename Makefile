@@ -7,7 +7,11 @@ default: all
 repos: ./bdcs ./bdcs-api-rs ./composer-UI
 
 weld-f24: Dockerfile-weld-f24
-	sudo docker build -f Dockerfile-weld-f24 -t weld/fedora:24 .
+	if [ ! -d ./build-weld-fedora/ ]; then \
+		mkdir ./build-weld-fedora/; \
+	fi; \
+	cp Dockerfile-weld-f24 ./build-weld-fedora/Dockerfile
+	sudo docker build -t weld/fedora:24 ./build-weld-fedora/
 
 bdcs:
 	git clone git@github.com:wiggum/bdcs.git
