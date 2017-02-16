@@ -1,10 +1,13 @@
-# Helpers for building and running the composer docker images
+# Helpers for building and running the welder docker images
 # Set IMPORT_PATH to the path of the rpms to import or bind mount to ./rpms/
 IMPORT_PATH ?= $(PWD)
 
+GIT_ORG_URL=git+ssh://git@github.com/weldr
+REPOS=bdcs bdcs-api-rs welder-web
+
 default: all
 
-repos: ./bdcs ./bdcs-api-rs ./composer-UI
+repos: $(REPOS)
 
 weld-f24: Dockerfile-weld-f24
 	if [ ! -d ./build-weld-fedora/ ]; then \
@@ -13,30 +16,21 @@ weld-f24: Dockerfile-weld-f24
 	cp Dockerfile-weld-f24 ./build-weld-fedora/Dockerfile
 	sudo docker build -t weld/fedora:24 ./build-weld-fedora/
 
-bdcs:
-	git clone git@github.com:wiggum/bdcs.git
+# given a repo in REPOS, clone it from GIT_ORG_URL
+$(REPOS):%:
+	git clone $(GIT_ORG_URL)/$@
 
-bdcs-api-rs:
-	git clone git@github.com:wiggum/bdcs-api-rs.git
+# clone from local copies of repos
+local-repos: GIT_ORG_URL=..
+local-repos: clean repos
 
-composer-UI:
-	git clone git@github.com:wiggum/composer-UI.git
-
-local-repos:
-	rm -rf ./bdcs ./bdcs-api-rs ./composer-UI
-	git clone ../bdcs/
-	git clone ../bdcs-api-rs
-	git clone ../composer-UI
-
-# Build the wiggum/* docker images. No rpms are imported and no images are run.
+# Build the weld/* docker images. No rpms are imported and no images are run.
 build: repos weld-f24
 	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
 # This uses local checkouts one directory above
-build-local: local-repos weld-f24
-	sudo $(MAKE) -C bdcs importer
-	sudo docker-compose build
+build-local: local-repos build
 
 # Import the RPMS from IMPORT_PATH and create the bdcs-mddb-volume
 import: repos
@@ -56,7 +50,7 @@ import-metadata:
 		exit 1; \
 	fi; \
 	sudo docker volume create -d local --opt o=size=2GB --name bdcs-mddb-volume
-	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z wiggum/bdcs-api
+	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z weld/bdcs-api
 	sudo docker cp ./metadata.db import-mddb:/mddb/
 	sudo docker rm import-mddb
 
@@ -67,10 +61,11 @@ run-background: repos
 	sudo docker-compose up -d
 
 all:
-	echo "Choose one of build, import, or run."
+	@echo "Try 'make build', 'make import', or 'make run'."
+	@echo "(make sure Docker is running first!)"
 
 clean:
-	rm -rf ./bdcs ./bdcs-api-rs ./composer-UI
+	rm -rf $(REPOS)
 
 
 .PHONY: clean build import run build-local

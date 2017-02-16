@@ -4,7 +4,7 @@ services:
     api:
         restart: always
         build: ./bdcs-api-rs/
-        image: wiggum/bdcs-api:latest
+        image: weld/bdcs-api:latest
         ports:
             - 4000
         volumes:
@@ -13,8 +13,8 @@ services:
 
     web:
         restart: always
-        build: ./composer-UI/
-        image: wiggum/composer:latest
+        build: ./welder-web/
+        image: weld/web:latest
         links:
             - api
         ports:
