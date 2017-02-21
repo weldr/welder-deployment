@@ -70,7 +70,7 @@ uncomitted changes won't be used.
 
 ### import
 
-`make impor` will import the rpms from ./rpms/ into the metadata.db stored in
+`make import` will import the rpms from ./rpms/ into the metadata.db stored in
 the `bdcs-mddb-volume`.  You can point to a different path for the rpms by
 setting the `IMPORT_PATH` variable when running `make import` or by symlinking
 the path to the rpms to ./rpms/
