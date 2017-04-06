@@ -9,12 +9,12 @@ default: all
 
 repos: $(REPOS)
 
-weld-f24: Dockerfile-weld-f24
+weld-f25: Dockerfile-weld-f25
 	if [ ! -d ./build-weld-fedora/ ]; then \
 		mkdir ./build-weld-fedora/; \
 	fi; \
-	cp Dockerfile-weld-f24 ./build-weld-fedora/Dockerfile
-	sudo docker build -t weld/fedora:24 ./build-weld-fedora/
+	cp Dockerfile-weld-f25 ./build-weld-fedora/Dockerfile
+	sudo docker build -t weld/fedora:25 ./build-weld-fedora/
 
 # given a repo in REPOS, clone it from GIT_ORG_URL
 $(REPOS):%:
@@ -25,7 +25,7 @@ local-repos: GIT_ORG_URL=..
 local-repos: clean repos
 
 # Build the weld/* docker images. No rpms are imported and no images are run.
-build: repos weld-f24
+build: repos weld-f25
 	sudo $(MAKE) -C bdcs importer
 	sudo docker-compose build
 
