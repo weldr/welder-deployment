@@ -4,4 +4,4 @@ FROM fedora:25
 MAINTAINER Brian C. Lane <bcl@redhat.com>
 RUN dnf --setopt=deltarpm=0 --verbose install -y dnf-plugins-core gnupg tar git sudo curl \
 file gcc-c++ gcc gdb glibc-devel openssl-devel make xz sqlite-devel cmake libcurl-devel \
-openssl-devel xz-devel zlib-devel sqlite && dnf clean all
+openssl-devel xz-devel zlib-devel sqlite glib2-devel gobject-introspection-devel ostree-devel && dnf clean all
