@@ -49,7 +49,7 @@ import-metadata:
 		echo "ERROR: missing ./metadata.db file" \
 		exit 1; \
 	fi; \
-	sudo docker volume create -d local --opt o=size=2GB --name bdcs-mddb-volume
+	sudo docker volume create -d local --name bdcs-mddb-volume
 	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z weld/bdcs-api
 	sudo docker cp ./metadata.db import-mddb:/mddb/
 	sudo docker rm import-mddb
