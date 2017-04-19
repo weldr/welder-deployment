@@ -23,8 +23,6 @@ services:
 volumes:
     bdcs-recipes-volume:
         driver: local
-        driver_opts:
-            size: 1GB
     bdcs-mddb-volume:
         external: true
 
