@@ -2,7 +2,7 @@
 # Set IMPORT_PATH to the path of the rpms to import or bind mount to ./rpms/
 IMPORT_PATH ?= $(PWD)
 
-GIT_ORG_URL=git+ssh://git@github.com/weldr
+GIT_ORG_URL=https://github.com/weldr
 REPOS=bdcs bdcs-api-rs welder-web
 
 default: all
