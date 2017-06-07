@@ -8,8 +8,10 @@ services:
         ports:
             - 4000
         volumes:
-            - bdcs-recipes-volume:/bdcs-recipes/:z
-            - bdcs-mddb-volume:/mddb/:z
+            - bdcs-recipes-volume:/bdcs-recipes/
+            - ./mddb/:/mddb/
+        security_opt:
+            - label:disable
 
     web:
         restart: always
@@ -23,6 +25,3 @@ services:
 volumes:
     bdcs-recipes-volume:
         driver: local
-    bdcs-mddb-volume:
-        external: true
-

@@ -32,7 +32,7 @@ build: repos weld-f25
 # This uses local checkouts one directory above
 build-local: local-repos build
 
-# Import the RPMS from IMPORT_PATH and create the bdcs-mddb-volume
+# Import the RPMS from IMPORT_PATH and create ./mddb/metadata.db and ./mddb/cs.repo
 import: repos
 	@if [ -h $(IMPORT_PATH)/rpms ]; then \
 		echo "ERROR: $(IMPORT_PATH)/rpms/ cannot be a symlink"; \
@@ -42,17 +42,11 @@ import: repos
 		echo "ERROR: $(IMPORT_PATH)/rpms/ must exist"; \
 		exit 1; \
 	fi; \
-	sudo WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
-
-import-metadata:
-	@if [ ! -f ./metadata.db ]; then \
-		echo "ERROR: missing ./metadata.db file" \
+	if [ -h $(IMPORT_PATH)/mddb ]; then \
+		echo "ERROR: $(IMPORT_PATH)/mddb/ cannot be a symlink"; \
 		exit 1; \
 	fi; \
-	sudo docker volume create -d local --name bdcs-mddb-volume
-	sudo docker create --name import-mddb -v bdcs-mddb-volume:/mddb/:z weld/bdcs-api
-	sudo docker cp ./metadata.db import-mddb:/mddb/
-	sudo docker rm import-mddb
+	sudo WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
 
 run: repos
 	sudo docker-compose up
