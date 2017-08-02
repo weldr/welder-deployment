@@ -4,6 +4,10 @@ language: c
 services:
   - docker
 
+before_install:
+  # pull before running make so we can use intermediate layers as cache
+  - sudo docker pull welder/fedora:latest
+
 script:
   - make weld-f25
 

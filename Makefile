@@ -10,7 +10,7 @@ default: all
 repos: $(REPOS)
 
 weld-f25: Dockerfile-weld-f25
-	sudo docker build -t welder/fedora:25 -f Dockerfile-weld-f25 .
+	sudo docker build -t welder/fedora:25 --cache-from welder/fedora:latest -f Dockerfile-weld-f25 .
 	sudo docker tag      welder/fedora:25 welder/fedora:latest
 
 # given a repo in REPOS, clone it from GIT_ORG_URL
