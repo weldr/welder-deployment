@@ -9,7 +9,7 @@ script:
 
 after_success:
   - |
-        if [ "$TRAVIS_BRANCH" == "master" ]; then
+        if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
             docker login -u atodorov -p $DOCKER_PASSWORD
             docker push welder/fedora
         fi
