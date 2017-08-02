@@ -10,11 +10,8 @@ default: all
 repos: $(REPOS)
 
 weld-f25: Dockerfile-weld-f25
-	if [ ! -d ./build-weld-fedora/ ]; then \
-		mkdir ./build-weld-fedora/; \
-	fi; \
-	cp Dockerfile-weld-f25 ./build-weld-fedora/Dockerfile
-	sudo docker build -t weld/fedora:25 ./build-weld-fedora/
+	sudo docker build -t welder/fedora:25 -f Dockerfile-weld-f25 .
+	sudo docker tag      welder/fedora:25 welder/fedora:latest
 
 # given a repo in REPOS, clone it from GIT_ORG_URL
 $(REPOS):%:
