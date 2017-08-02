@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+language: c
+services:
+  - docker
+
+script:
+  - make weld-f25
+
+after_success:
+  - |
+        if [ "$TRAVIS_BRANCH" == "master" ]; then
+            docker login -u atodorov -p $DOCKER_PASSWORD
+            docker push welder/fedora
+        fi
+
+notifications:
+  email:
+    on_failure: change
+    on_success: never
+
+env:
+  global:
+    secure: q4bqHBDtad1XkqS8UVptuf6HzSuJWYNFM0MtWn6dU4+x6C/ByVB3Yqp4LAK6UVH14iURQfef1PE9g/NsWYtz0QXU8h2SP+LtA24+6MQSJ6cpOPyAjsg+qdZ7RyX53EBrGEZscAm89P1Fqvzjq8AEmuC2sFoobGXOY/s6efBQktPZsYk/v13B5W38IweAWLMpuVrdHVv6S9gGjhwq4a9SCoyywqiCS1zGcPry3+0bgFEZVHAZHj6r3Cp/JihFVYg51eZOHoqtTcZqmsb2DObnsg0lQmgVh7+huaYcarlWu67mGdtAWBEj3nRmJGjR1evaB7dRUUeiF+BTxj0Arv3rPaJBtKPlEO7e8xZVEoaDWfbPBfkfSAjUb7HescI22iN4C54x4IiiarYdNLONEoACZWp0yVO0U87aUWdhDr14uJxzJJs+ZivTfoCqOv3kjbouHI8BsIntb5NKBSCJiA4nCiqeyGOt2GBUKTZ6Q8y48Wn2JH1uLPF7GkK92R6R1DNQEJUeU596rLGO0ni8nypXv+/uo5x4AV0j89oPP7vhyKDSjU1KYyQ14nnIL1zTCpy/1xMQLUditoX1wbMMb0W7IOshvfjL6Lb41OItWymvi5EBV9tJVJf0XCoKLOEz1HmhpfpDOttam5g8U7YkzQ7ELO7Bw0+xqVJJCt2pYtxeNmg=
