@@ -9,7 +9,7 @@ before_install:
   - sudo docker pull welder/fedora:latest
 
 script:
-  - make weld-f25
+  - make weld-fedora
 
 after_success:
   - |
