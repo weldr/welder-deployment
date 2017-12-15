@@ -1,6 +1,6 @@
-# A Fedora 25 Container
+# A Fedora 26 Container
 # With the libraries and tools needed to build things.
-FROM fedora:25
+FROM fedora:26
 MAINTAINER Brian C. Lane <bcl@redhat.com>
 RUN dnf --setopt=deltarpm=0 --verbose install -y dnf-plugins-core gnupg tar git sudo curl \
 file gcc-c++ gcc gdb glibc-devel openssl-devel make xz sqlite-devel cmake libcurl-devel \
