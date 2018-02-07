@@ -3,7 +3,7 @@
 IMPORT_PATH ?= $(PWD)
 
 GIT_ORG_URL=https://github.com/weldr
-REPOS=bdcs bdcs-api-rs welder-web
+REPOS=bdcs bdcs-api welder-web
 
 default: all
 

@@ -3,7 +3,9 @@ version: '2'
 services:
     api:
         restart: always
-        build: ./bdcs-api-rs/
+        build:
+            context: ./bdcs-api/
+            dockerfile: Dockerfile.build
         image: weld/bdcs-api:latest
         ports:
             - 4000
