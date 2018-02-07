@@ -59,11 +59,11 @@ welder application running on port 80 by doing the following:
 
 ### build and build-local
 
-`make build` will checkout the latest version of bdcs, bdcs-api-rs and
+`make build` will checkout the latest version of bdcs, bdcs-api and
 welder-web from github and rebuild the `weld/*` images. ssh access to github
 must be setup for this to work.
 
-Alternatively, if the projects already exist at ../bdcs, ../bdcs-api-rs,
+Alternatively, if the projects already exist at ../bdcs, ../bdcs-api,
 ../welder-web, you can use `make build-local` and those repos will be cloned
 and used for the build. The current branch is used, so this can be useful for
 development before pushing to github. Note that these are checkouts so
