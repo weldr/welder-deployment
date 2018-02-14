@@ -11,7 +11,7 @@ services:
             - 4000
         volumes:
             - bdcs-recipes-volume:/bdcs-recipes/
-            - ./mddb/:/mddb/
+            - bdcs-mddb-volume:/mddb/
         security_opt:
             - label:disable
 
@@ -26,4 +26,7 @@ services:
 
 volumes:
     bdcs-recipes-volume:
+        driver: local
+
+    bdcs-mddb-volume:
         driver: local
