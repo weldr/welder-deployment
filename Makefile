@@ -29,7 +29,7 @@ build: repos weld-fedora
 # This uses local checkouts one directory above
 build-local: local-repos build
 
-# Import the RPMS from IMPORT_PATH and create ./mddb/metadata.db and ./mddb/cs.repo
+# Import the RPMS from IMPORT_PATH and create the content store volume.
 import: repos
 	@if [ -h $(IMPORT_PATH)/rpms ]; then \
 		echo "ERROR: $(IMPORT_PATH)/rpms/ cannot be a symlink"; \
@@ -37,10 +37,6 @@ import: repos
 	fi; \
 	if [ ! -d $(IMPORT_PATH)/rpms ]; then \
 		echo "ERROR: $(IMPORT_PATH)/rpms/ must exist"; \
-		exit 1; \
-	fi; \
-	if [ -h $(IMPORT_PATH)/mddb ]; then \
-		echo "ERROR: $(IMPORT_PATH)/mddb/ cannot be a symlink"; \
 		exit 1; \
 	fi; \
 	sudo WORKSPACE=$(IMPORT_PATH) $(MAKE) -C bdcs mddb
